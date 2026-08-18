@@ -1,0 +1,48 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "battery-monitor",
+  "version": "0.0.1",
+  "identifier": "bd.kabir.BatteryMonitor",
+  "build": {
+    "frontendDist": "../frontend"
+  },
+  "app": {
+    "withGlobalTauri": true,
+    "windows": [
+      {
+        "title": "Battery Monitor",
+        "width": 1300,
+        "height": 900,
+        "minWidth": 900,
+        "minHeight": 600,
+        "resizable": true,
+        "fullscreen": false
+      }
+    ],
+    "security": {
+      "csp": null
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": ["deb", "appimage"],
+    "category": "Utility",
+    "shortDescription": "Battery health, telemetry, and power-usage dashboard",
+    "longDescription": "Battery Monitor shows live voltage/current/power/temperature, charge status and health diagnostics, per-process power usage, and long-term battery history, backed by a local SQLite database. Runs in the background with a system tray icon; closing the window hides it instead of quitting.",
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ],
+    "linux": {
+      "deb": {
+        "recommends": ["powertop", "policykit-1"]
+      }
+    },
+    "android": {
+      "debugApplicationIdSuffix": ".debug"
+    }
+  }
+}

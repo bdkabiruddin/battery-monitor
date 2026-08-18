@@ -1,0 +1,22 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
+  "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<svg width="256" height="256">
+<g style="fill:black;fill-opacity:1;stroke:none;stroke-width:1;stroke-opacity:1;fill-rule:nonzero;">
+<g style="fill:#2e3436;stroke:#1a1c1e;stroke-width:1;">
+  <rect x="4" y="13" width="35" height="22" rx="5" ry="5"/>
+</g>
+<g style="fill:#2e3436;">
+  <rect x="40" y="19" width="4" height="10" rx="1.5" ry="1.5"/>
+</g>
+<g style="fill:#17191b;">
+  <rect x="7.5" y="16.5" width="28" height="15" rx="2.5" ry="2.5"/>
+</g>
+<g style="fill:#3fd67a;">
+  <rect x="9" y="18" width="19" height="12" rx="2" ry="2"/>
+</g>
+<g style="fill:#0e3d1f;">
+  <path d="M18.5 19.5 L13.5 25.5 L17 25.5 L14.5 29.5 L21.5 22.5 L18 22.5 Z"/>
+</g>
+</g>
+</svg>

@@ -1,0 +1,27 @@
+[package]
+name = "battery-monitor"
+version = "0.0.1"
+description = "Battery health, telemetry, and power-usage dashboard for Linux"
+authors = ["Md Kabir Uddin"]
+license = "MIT"
+edition = "2021"
+rust-version = "1.77.2"
+
+[lib]
+name = "app_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2.6.3", features = [] }
+
+[dependencies]
+serde_json = "1.0"
+serde = { version = "1.0", features = ["derive"] }
+log = "0.4"
+tauri = { version = "2.11.3", features = ["tray-icon"] }
+tauri-plugin-log = "2"
+battery-core = { path = "../core" }
+chrono = { version = "0.4", default-features = false, features = ["clock"] }
+tauri-plugin-notification = "2.3.3"
+tauri-plugin-single-instance = "2.4.3"
+tauri-plugin-window-state = "2.4.1"

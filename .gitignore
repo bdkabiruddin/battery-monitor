@@ -1,0 +1,18 @@
+# Runtime data (the app writes its real db under XDG_DATA_HOME / ~/.local/share)
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+
+# Build artifacts (Tauri's bundler, built fresh per release, not checked in)
+*.deb
+*.AppImage
+*.rpm
+
+# Rust
+core/target/
+# battery-core is a library, not a binary -- no Cargo.lock committed,
+# same convention as any other library crate (consumers resolve their
+# own versions; tauri/src-tauri's own Cargo.lock is what's authoritative
+# for the actual shipped app).
+core/Cargo.lock

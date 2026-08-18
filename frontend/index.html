@@ -1,0 +1,580 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Battery Monitor</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="app">
+    <nav class="sidebar">
+      <div class="sidebar-brand">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="1.5"><rect x="2" y="7" width="18" height="10" rx="2"></rect><line x1="22" y1="10" x2="22" y2="14"></line></svg>
+        <div>
+          <div class="sidebar-brand-name">Battery Monitor</div>
+          <div class="sidebar-brand-sub">v2.0.0</div>
+        </div>
+      </div>
+      <div class="sidebar-nav">
+        <button type="button" class="nav-item active" data-page="dashboard"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="9" rx="1"></rect><rect x="14" y="3" width="7" height="5" rx="1"></rect><rect x="14" y="12" width="7" height="9" rx="1"></rect><rect x="3" y="16" width="7" height="5" rx="1"></rect></svg><span>Dashboard</span></button>
+        <button type="button" class="nav-item" data-page="telemetry"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="3 12 8 12 10 6 14 18 16 12 21 12"></polyline></svg><span>Live Telemetry</span></button>
+        <button type="button" class="nav-item" data-page="power"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="6" y="6" width="12" height="12" rx="1"></rect><rect x="10" y="10" width="4" height="4"></rect><line x1="9" y1="2" x2="9" y2="6"></line><line x1="15" y1="2" x2="15" y2="6"></line><line x1="9" y1="18" x2="9" y2="22"></line><line x1="15" y1="18" x2="15" y2="22"></line><line x1="2" y1="9" x2="6" y2="9"></line><line x1="2" y1="15" x2="6" y2="15"></line><line x1="18" y1="9" x2="22" y2="9"></line><line x1="18" y1="15" x2="22" y2="15"></line></svg><span>Power Usage</span></button>
+        <button type="button" class="nav-item" data-page="health"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 21s-7-4.35-9.5-8.5C1 9 2 5.5 5.5 5c2-.3 3.7.9 4.5 2.3C10.8 5.9 12.5 4.7 14.5 5c3.5.5 4.5 4 3 7.5C19 16.65 12 21 12 21z"></path></svg><span>Health</span></button>
+        <button type="button" class="nav-item" data-page="charging"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="7" width="16" height="10" rx="2"></rect><line x1="22" y1="10" x2="22" y2="14"></line><polyline points="7 10 10 10 8.5 14 12 14 9.5 17"></polyline></svg><span>Charging</span></button>
+        <button type="button" class="nav-item" data-page="alerts"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 9a6 6 0 0 1 12 0c0 4 1.5 5.5 2 6H4c.5-.5 2-2 2-6"></path><path d="M10 19a2 2 0 0 0 4 0"></path></svg><span>Alerts</span></button>
+        <button type="button" class="nav-item" data-page="history"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2h9l5 5v15H6z"></path><path d="M15 2v5h5"></path><line x1="9" y1="13" x2="16" y2="13"></line><line x1="9" y1="17" x2="16" y2="17"></line></svg><span>History</span></button>
+        <button type="button" class="nav-item" data-page="devices"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="7" rx="1"></rect><rect x="3" y="13" width="18" height="7" rx="1"></rect><line x1="7" y1="7.5" x2="7.01" y2="7.5"></line><line x1="7" y1="16.5" x2="7.01" y2="16.5"></line></svg><span>Devices</span></button>
+        <div class="sidebar-divider"></div>
+        <button type="button" class="nav-item" data-page="settings"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="4" y1="6" x2="20" y2="6"></line><circle cx="9" cy="6" r="2"></circle><line x1="4" y1="12" x2="20" y2="12"></line><circle cx="15" cy="12" r="2"></circle><line x1="4" y1="18" x2="20" y2="18"></line><circle cx="7" cy="18" r="2"></circle></svg><span>Settings</span></button>
+      </div>
+      <div class="sidebar-footer">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="1.5"><rect x="2" y="7" width="18" height="10" rx="2"></rect><line x1="22" y1="10" x2="22" y2="14"></line></svg>
+        <div style="flex:1;min-width:0">
+          <div class="sidebar-footer-title">This Device</div>
+          <div class="text-muted" id="footer-status" style="font-size:11px">— · —</div>
+        </div>
+      </div>
+    </nav>
+
+    <div class="main">
+      <div class="topbar">
+        <div class="topbar-title">
+          <h4 id="page-title">Dashboard</h4>
+          <div class="text-muted topbar-subtitle" id="page-subtitle">Overview of battery status and live telemetry</div>
+        </div>
+        <button type="button" class="input palette-btn" id="palette-btn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="opacity:.6;flex:none"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg>
+          <span>Search or run a command</span>
+          <span class="palette-kbd">⌘K</span>
+        </button>
+        <div class="topbar-actions">
+          <span class="live-dot-row" id="live-status-row"><span class="live-dot"></span><span id="live-status-text">Live</span></span>
+          <span class="text-muted" id="last-updated" style="font-size:12px;white-space:nowrap">Updated —</span>
+          <div style="position:relative">
+            <button type="button" class="btn btn-icon btn-secondary" id="quick-actions-btn" title="Quick actions">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="13 2 4 14 11 14 10 22 20 10 13 10 13 2"></polygon></svg>
+            </button>
+            <div class="blueprint elev-md quick-actions-menu hidden" id="quick-actions-menu">
+              <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+              <button type="button" class="btn btn-ghost" data-action="toggle-battery-saver">Toggle Battery Saver</button>
+              <button type="button" class="btn btn-ghost" data-action="generate-report">Generate Report (24h)</button>
+              <button type="button" class="btn btn-ghost" data-action="mark-all-read">Mark All Alerts Read</button>
+              <button type="button" class="btn btn-ghost" data-action="refresh-now">Refresh Now</button>
+            </div>
+          </div>
+          <button type="button" class="btn btn-icon btn-secondary" id="theme-toggle" title="Toggle theme">
+            <svg id="theme-icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5z"></path></svg>
+            <svg id="theme-icon-sun" class="hidden" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="4"></circle><line x1="12" y1="2" x2="12" y2="4"></line><line x1="12" y1="20" x2="12" y2="22"></line><line x1="2" y1="12" x2="4" y2="12"></line><line x1="20" y1="12" x2="22" y2="12"></line><line x1="4.9" y1="4.9" x2="6.3" y2="6.3"></line><line x1="17.7" y1="17.7" x2="19.1" y2="19.1"></line><line x1="4.9" y1="19.1" x2="6.3" y2="17.7"></line><line x1="17.7" y1="6.3" x2="19.1" y2="4.9"></line></svg>
+          </button>
+          <button type="button" class="btn btn-icon btn-secondary" id="shortcuts-btn" title="Keyboard shortcuts">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="6" width="20" height="12" rx="1"></rect><line x1="6" y1="10" x2="6.01" y2="10"></line><line x1="10" y1="10" x2="10.01" y2="10"></line><line x1="14" y1="10" x2="14.01" y2="10"></line><line x1="18" y1="10" x2="18.01" y2="10"></line><line x1="7" y1="14" x2="17" y2="14"></line></svg>
+          </button>
+          <button type="button" class="btn btn-icon btn-secondary" id="refresh-btn" title="Refresh">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 12a9 9 0 1 1-3-6.7"></path><polyline points="21 3 21 9 15 9"></polyline></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Command palette -->
+      <div class="dialog-backdrop hidden" id="palette-backdrop">
+        <div class="blueprint elev-lg palette-dialog">
+          <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+          <input class="input" id="palette-input" placeholder="Search pages or actions…" autocomplete="off">
+          <div id="palette-results" class="palette-results"></div>
+        </div>
+      </div>
+
+      <!-- Keyboard shortcuts dialog -->
+      <div class="dialog-backdrop hidden" id="shortcuts-backdrop">
+        <div class="blueprint elev-lg" style="width:min(360px,100%);padding:var(--space-4);display:flex;flex-direction:column;gap:var(--space-3)">
+          <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+          <div class="dialog-title">Keyboard Shortcuts</div>
+          <div id="shortcuts-list" style="display:flex;flex-direction:column;gap:8px;font-size:13px"></div>
+        </div>
+      </div>
+
+      <div class="content">
+        <!-- Dashboard -->
+        <section class="page active" id="page-dashboard">
+          <div class="grid-3">
+            <div class="card blueprint" style="gap:14px">
+              <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+              <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+                <div class="card-kicker">Overview</div>
+              </div>
+              <div style="display:flex;justify-content:flex-end"><span class="tag tag-accent" id="device-tag">Internal Battery</span></div>
+              <div style="display:flex;gap:18px;align-items:center">
+                <svg width="96" height="96" viewBox="0 0 96 96" style="flex:none">
+                  <circle cx="48" cy="48" r="40" fill="none" stroke="var(--color-divider)" stroke-width="8"></circle>
+                  <circle id="ring-progress" cx="48" cy="48" r="40" fill="none" stroke="var(--color-accent-600)" stroke-width="8" stroke-linecap="round" stroke-dasharray="0 251" transform="rotate(-90 48 48)"></circle>
+                  <text id="ring-percent" x="48" y="53" text-anchor="middle" font-family="var(--font-heading)" font-size="22" font-weight="600" fill="var(--color-text)">—</text>
+                </svg>
+                <div style="flex:1;min-width:0">
+                  <div style="font-weight:600"><span id="overview-status">—</span> · <span id="overview-health">—</span> health</div>
+                  <div class="text-muted" style="font-size:12px;margin-top:2px" id="overview-note">—</div>
+                </div>
+              </div>
+              <div class="hr" style="margin:2px 0"></div>
+              <div style="display:flex;flex-direction:column;gap:9px;font-size:13px">
+                <div class="info-row"><span class="label">Model</span><span class="value" id="ov-model">—</span></div>
+                <div class="info-row"><span class="label">Manufacturer</span><span class="value" id="ov-manufacturer">—</span></div>
+                <div class="info-row"><span class="label">Technology</span><span class="value" id="ov-technology">—</span></div>
+              </div>
+            </div>
+
+            <div class="card blueprint" style="gap:12px">
+              <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+              <div class="card-kicker">Live Metrics</div>
+              <div class="metrics-2x2">
+                <div class="metric-cell"><div class="metric-label">Voltage</div><div class="metric-value" id="m-voltage">—</div><svg viewBox="0 0 100 30" width="100%" height="30" preserveAspectRatio="none"><polyline id="spark-voltage" points="" fill="none" stroke="var(--color-accent-600)" stroke-width="1.5"></polyline></svg></div>
+                <div class="metric-cell"><div class="metric-label">Current</div><div class="metric-value" id="m-current">—</div><svg viewBox="0 0 100 30" width="100%" height="30" preserveAspectRatio="none"><polyline id="spark-current" points="" fill="none" stroke="var(--color-accent-300)" stroke-width="1.5"></polyline></svg></div>
+                <div class="metric-cell"><div class="metric-label">Power</div><div class="metric-value" id="m-power">—</div><svg viewBox="0 0 100 30" width="100%" height="30" preserveAspectRatio="none"><polyline id="spark-power" points="" fill="none" stroke="var(--color-accent-600)" stroke-width="1.5"></polyline></svg></div>
+                <div class="metric-cell"><div class="metric-label">Temperature</div><div class="metric-value" id="m-temp">—</div><svg viewBox="0 0 100 30" width="100%" height="30" preserveAspectRatio="none"><polyline id="spark-temp" points="" fill="none" stroke="var(--color-accent-300)" stroke-width="1.5"></polyline></svg></div>
+              </div>
+            </div>
+
+            <div class="card blueprint" style="gap:9px">
+              <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+              <div class="card-kicker">Battery Information</div>
+              <div style="display:flex;flex-direction:column;gap:9px;font-size:13px">
+                <div class="info-row"><span class="label">Battery Health</span><span class="value" id="bi-health">—</span></div>
+                <div class="info-row"><span class="label">Design Voltage</span><span class="value" id="bi-design-voltage">—</span></div>
+                <div class="info-row"><span class="label">Charge Threshold</span><span class="value" id="bi-charge-threshold">—</span></div>
+                <div class="info-row"><span class="label">Design Capacity</span><span class="value" id="bi-design-capacity">—</span></div>
+                <div class="info-row"><span class="label">Full Charge Capacity</span><span class="value" id="bi-full-capacity">—</span></div>
+                <div class="info-row"><span class="label">Current Charge</span><span class="value" id="bi-current-capacity">—</span></div>
+                <div class="info-row"><span class="label">Cycle Count</span><span class="value" id="bi-cycle-count">—</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card blueprint" style="gap:12px">
+            <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+              <div class="card-kicker">24H Average</div>
+              <div class="seg" id="range-seg">
+                <label class="seg-opt" data-range="1"><input type="radio" name="range24h">1m</label>
+                <label class="seg-opt" data-range="5"><input type="radio" name="range24h">5m</label>
+                <label class="seg-opt active" data-range="15"><input type="radio" name="range24h" checked>15m</label>
+                <label class="seg-opt" data-range="30"><input type="radio" name="range24h">30m</label>
+                <label class="seg-opt" data-range="60"><input type="radio" name="range24h">60m</label>
+              </div>
+            </div>
+            <div style="display:flex;gap:8px">
+              <div id="h24-yaxis" class="text-muted" style="width:36px;flex:none;display:flex;flex-direction:column;justify-content:space-between;font-size:10px;text-align:right;padding:2px 0"></div>
+              <div style="flex:1;min-width:0;position:relative">
+                <svg id="h24-svg" viewBox="0 0 1000 200" width="100%" height="200" preserveAspectRatio="none" style="display:block">
+                  <g id="h24-grid"></g>
+                  <path id="h24-area" d="" fill="var(--color-accent-100)"></path>
+                  <path id="h24-line" d="" fill="none" stroke="var(--color-accent-600)" stroke-width="2"></path>
+                  <line id="h24-crosshair" x1="0" y1="0" x2="0" y2="200" stroke="var(--color-divider)" stroke-width="1.5" stroke-dasharray="4 3" class="hidden"></line>
+                </svg>
+                <div id="h24-tooltip" class="chart-tooltip hidden"></div>
+              </div>
+            </div>
+            <div style="display:flex;gap:8px">
+              <div style="width:36px;flex:none"></div>
+              <div id="h24-labels" class="text-muted" style="flex:1;display:flex;justify-content:space-between;font-size:11px;margin-top:2px"></div>
+            </div>
+          </div>
+
+          <div class="grid-4">
+            <div class="card blueprint"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i><div class="card-kicker">Status</div><div class="stat-tile" id="tile-status">—</div></div>
+            <div class="card blueprint"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i><div class="card-kicker">Health Status</div><div class="stat-tile" id="tile-health">—</div></div>
+            <div class="card blueprint"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i><div class="card-kicker">Temperature</div><div class="stat-tile" id="tile-temp">—</div></div>
+            <div class="card blueprint"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i><div class="card-kicker">Power Usage</div><div class="stat-tile" id="tile-power">—</div></div>
+          </div>
+        </section>
+
+        <!-- Power Usage -->
+        <section class="page" id="page-power">
+          <div class="card blueprint" style="gap:12px">
+            <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
+              <div class="card-kicker">Top Processes · by CPU%</div>
+              <input class="input" id="process-search" style="width:240px" placeholder="Search process" />
+            </div>
+            <table class="table">
+              <thead><tr>
+                <th class="sortable" data-sort="pid">PID<span class="sort-arrow"></span></th>
+                <th class="sortable" data-sort="name">Name<span class="sort-arrow"></span></th>
+                <th class="sortable sort-active" data-sort="cpuPercent">CPU%<span class="sort-arrow">▼</span></th>
+                <th class="sortable" data-sort="memPercent">Memory<span class="sort-arrow"></span></th>
+                <th class="sortable" data-sort="runtime">Runtime<span class="sort-arrow"></span></th>
+              </tr></thead>
+              <tbody id="process-rows"></tbody>
+            </table>
+          </div>
+          <div class="card blueprint" style="gap:10px">
+            <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <div class="card-kicker">PowerTop Scan · per-process power impact</div>
+              <button type="button" class="btn btn-secondary" id="powertop-scan-btn">Scan (15s, requires password)</button>
+            </div>
+            <div class="text-muted" style="font-size:12px" id="powertop-status">Not run yet. Requires root via pkexec — never runs automatically.</div>
+            <table class="table" id="powertop-table" style="display:none">
+              <thead><tr><th>PID</th><th>Name</th><th>Impact</th><th>Category</th></tr></thead>
+              <tbody id="powertop-rows"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Not-yet-implemented screens: honest placeholders, no fabricated data -->
+        <section class="page" id="page-telemetry">
+          <div class="card blueprint" style="gap:12px">
+            <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
+              <div style="display:flex;align-items:center;gap:14px">
+                <div class="card-kicker">Live Telemetry</div>
+                <div style="display:flex;align-items:center;gap:6px;font-size:12px"><span style="width:14px;height:2px;background:var(--color-accent-600);display:inline-block"></span>Capacity (%)</div>
+                <div style="display:flex;align-items:center;gap:6px;font-size:12px"><span style="width:14px;height:2px;background:var(--color-accent-300);display:inline-block;border-top:2px dashed var(--color-accent-300)"></span>Power (W)</div>
+              </div>
+              <div class="seg" id="telemetry-range-seg">
+                <label class="seg-opt" data-hours="1"><input type="radio" name="telemetryRange">1h</label>
+                <label class="seg-opt" data-hours="6"><input type="radio" name="telemetryRange">6h</label>
+                <label class="seg-opt active" data-hours="24"><input type="radio" name="telemetryRange" checked>24h</label>
+              </div>
+            </div>
+            <div style="display:flex;gap:8px">
+              <div id="live-yaxis-l" class="text-muted" style="width:36px;flex:none;display:flex;flex-direction:column;justify-content:space-between;font-size:10px;text-align:right;padding:2px 0"></div>
+              <div style="flex:1;min-width:0;position:relative">
+                <svg id="live-svg" viewBox="0 0 1000 300" width="100%" height="300" preserveAspectRatio="none" style="display:block">
+                  <g id="live-grid"></g>
+                  <path id="live-power-line" d="" fill="none" stroke="var(--color-accent-300)" stroke-width="1.5" stroke-dasharray="6 5"></path>
+                  <path id="live-capacity-line" d="" fill="none" stroke="var(--color-accent-600)" stroke-width="2"></path>
+                  <line id="live-crosshair" x1="0" y1="0" x2="0" y2="300" stroke="var(--color-divider)" stroke-width="1.5" stroke-dasharray="4 3" class="hidden"></line>
+                </svg>
+                <div id="live-tooltip" class="chart-tooltip hidden"></div>
+              </div>
+              <div id="live-yaxis-r" class="text-muted" style="width:48px;flex:none;display:flex;flex-direction:column;justify-content:space-between;font-size:10px;text-align:left;padding:2px 0"></div>
+            </div>
+            <div style="display:flex;gap:8px">
+              <div style="width:36px;flex:none"></div>
+              <div id="live-labels" class="text-muted" style="flex:1;display:flex;justify-content:space-between;font-size:11px;margin-top:2px"></div>
+              <div style="width:48px;flex:none"></div>
+            </div>
+          </div>
+          <div class="card blueprint" style="gap:10px">
+            <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+            <div class="card-kicker">Session</div>
+            <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:14px;font-size:13px">
+              <div><div class="text-muted" style="font-size:12px">Current Draw</div><div id="sess-current-draw">—</div></div>
+              <div><div class="text-muted" style="font-size:12px">Avg Draw (24h)</div><div id="sess-avg-draw">—</div></div>
+              <div><div class="text-muted" style="font-size:12px">Runtime Left</div><div id="sess-runtime">—</div></div>
+              <div><div class="text-muted" style="font-size:12px">Health</div><div id="sess-health">—</div></div>
+              <div><div class="text-muted" style="font-size:12px">Cycle Count</div><div id="sess-cycles">—</div></div>
+            </div>
+          </div>
+          <div class="card blueprint" style="gap:10px">
+            <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+            <div class="card-kicker">Usage Heatmap · discharge intensity by hour</div>
+            <div style="display:flex;gap:3px" id="heatmap-row"></div>
+            <div style="display:flex;justify-content:space-between;font-size:11px" class="text-muted"><span>00:00</span><span>06:00</span><span>12:00</span><span>18:00</span><span>23:00</span></div>
+          </div>
+        </section>
+        <section class="page" id="page-health">
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px">
+            <div class="card blueprint" style="gap:8px">
+              <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+              <div class="card-kicker">Health</div>
+              <div class="stat-tile" style="font-size:26px" id="h-health-percent">—</div>
+              <div style="height:6px;background:var(--color-divider)"><div style="height:6px;background:var(--color-accent-600)" id="h-health-bar"></div></div>
+              <span class="tag tag-accent" style="width:fit-content" id="h-health-label">—</span>
+            </div>
+            <div class="card blueprint" style="gap:8px">
+              <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+              <div class="card-kicker">Capacity</div>
+              <div style="display:flex;flex-direction:column;gap:7px;font-size:13px">
+                <div class="info-row"><span class="label">Design</span><span class="value" id="h-cap-design">—</span></div>
+                <div class="info-row"><span class="label">Full Charge</span><span class="value" id="h-cap-full">—</span></div>
+                <div class="info-row"><span class="label">Current</span><span class="value" id="h-cap-current">—</span></div>
+              </div>
+            </div>
+            <div class="card blueprint" style="gap:8px">
+              <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+              <div class="card-kicker">Cycle Count</div>
+              <div class="stat-tile" style="font-size:26px" id="h-cycle-count">—</div>
+              <div class="text-muted" style="font-size:12px">full charge/discharge equivalents</div>
+            </div>
+          </div>
+          <div class="card blueprint" style="gap:10px">
+            <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+            <div class="card-kicker">Degradation Trend · last 12 months</div>
+            <div style="display:flex;gap:8px">
+              <div id="health-trend-yaxis" class="text-muted" style="width:36px;flex:none;display:flex;flex-direction:column;justify-content:space-between;font-size:10px;text-align:right;padding:2px 0"></div>
+              <div style="flex:1;min-width:0;position:relative">
+                <svg id="health-trend-svg" viewBox="0 0 1000 160" width="100%" height="160" preserveAspectRatio="none" style="display:block">
+                  <g id="health-trend-grid"></g>
+                  <path id="health-trend-line" d="" fill="none" stroke="var(--color-accent-600)" stroke-width="2"></path>
+                  <line id="health-trend-crosshair" x1="0" y1="0" x2="0" y2="160" stroke="var(--color-divider)" stroke-width="1.5" stroke-dasharray="4 3" class="hidden"></line>
+                </svg>
+                <div id="health-trend-tooltip" class="chart-tooltip hidden"></div>
+              </div>
+            </div>
+            <div style="display:flex;gap:8px">
+              <div style="width:36px;flex:none"></div>
+              <div style="flex:1;display:flex;justify-content:space-between;font-size:11px" class="text-muted" id="health-trend-labels"></div>
+            </div>
+            <div class="text-muted" style="font-size:11px" id="health-trend-note"></div>
+          </div>
+          <div class="card blueprint placeholder-note">
+            <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+            Calibration, Charge Cycle Log, and device Comparison aren't shown here — none of them
+            have a real data source: there's no full-discharge/charge trigger to hook a
+            calibration routine into, sysfs only exposes a cumulative cycle count (not
+            per-cycle dates/depths/durations to log), and there's no dataset of comparable
+            device battery specs to compare against honestly.
+          </div>
+        </section>
+        <section class="page" id="page-charging">
+          <div class="card blueprint" style="gap:10px">
+            <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+            <div class="card-kicker">Charge Threshold</div>
+            <div id="charge-threshold-body">—</div>
+          </div>
+
+          <div class="card blueprint" style="gap:10px">
+            <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+              <div class="card-kicker">Power Profile</div>
+              <div class="seg" id="power-profile-seg"></div>
+            </div>
+            <div class="text-muted" style="font-size:12px" id="power-profile-note">—</div>
+          </div>
+
+          <div class="card blueprint" style="gap:10px">
+            <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+            <div class="card-kicker">Estimated System Draw</div>
+            <div class="stat-tile" id="estimated-draw-tile">—</div>
+            <div class="text-muted" style="font-size:12px">
+              Average discharge power over the last 7 days of history — an estimate from this machine's
+              own past behavior, not a live reading. There's no sysfs source on this hardware that reports
+              system draw independently of battery current while the charger is plugged in.
+            </div>
+          </div>
+
+          <div class="card blueprint" style="gap:10px" id="rapl-card">
+            <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <div class="card-kicker">CPU Package Power (RAPL)</div>
+              <button type="button" class="btn btn-secondary" id="rapl-scan-btn">Measure (1s, requires password)</button>
+            </div>
+            <div class="stat-tile" id="rapl-tile">—</div>
+            <div class="text-muted" style="font-size:12px" id="rapl-status">
+              Not measured yet. Requires root via pkexec — never runs automatically. This is CPU package
+              power only (from Intel RAPL), not whole-system power — display, SSD, and other components
+              aren't included.
+            </div>
+          </div>
+
+          <div class="card blueprint" style="gap:10px">
+            <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <div class="card-kicker">Automatic Battery Saver</div>
+              <label class="switch"><input type="checkbox" id="battery-saver-toggle" aria-label="Automatic Battery Saver"><span class="track"></span><span class="knob"></span></label>
+            </div>
+            <div class="text-muted" style="font-size:12px" id="battery-saver-note">—</div>
+          </div>
+
+          <div class="card blueprint" style="gap:10px">
+            <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <div class="card-kicker">USB-C Power Delivery</div>
+              <button type="button" class="btn btn-secondary" id="usb-pd-refresh">Refresh</button>
+            </div>
+            <div id="usb-pd-body" style="display:flex;flex-direction:column;gap:9px;font-size:13px">—</div>
+          </div>
+
+          <div class="card blueprint placeholder-note">
+            <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+            Wear-Leveling Schedule isn't shown here — there's no standard Linux facility for
+            scheduling battery wear-leveling; nothing real to back it with.
+          </div>
+        </section>
+        <section class="page" id="page-alerts">
+          <div class="card blueprint" style="gap:10px">
+            <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+            <div class="card-kicker">Alert Thresholds</div>
+            <div style="display:flex;flex-direction:column;gap:10px;font-size:13px">
+              <div>
+                <div style="display:flex;justify-content:space-between"><span class="text-muted">Low battery</span><span id="al-low-val">—</span></div>
+                <input type="range" min="1" max="50" id="al-low" aria-label="Low battery alert threshold, percent" style="width:100%">
+              </div>
+              <div>
+                <div style="display:flex;justify-content:space-between"><span class="text-muted">Critical battery</span><span id="al-critical-val">—</span></div>
+                <input type="range" min="1" max="50" id="al-critical" aria-label="Critical battery alert threshold, percent" style="width:100%">
+              </div>
+              <div class="text-muted" style="font-size:11px" id="al-threshold-note">Seeded from UPower's real configured thresholds; adjusting here only affects this app's own alerts (session-only, not persisted).</div>
+            </div>
+          </div>
+
+          <div class="card blueprint" style="gap:10px">
+            <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+              <div class="seg" id="alert-filter-seg">
+                <label class="seg-opt active" data-filter="all"><input type="radio" name="alertFilter" checked>All</label>
+                <label class="seg-opt" data-filter="unread"><input type="radio" name="alertFilter">Unread</label>
+                <label class="seg-opt" data-filter="Critical"><input type="radio" name="alertFilter">Critical</label>
+                <label class="seg-opt" data-filter="Warning"><input type="radio" name="alertFilter">Warning</label>
+              </div>
+              <button type="button" class="btn btn-secondary" id="mark-all-read">Mark all read</button>
+            </div>
+            <div id="alert-rows" style="display:flex;flex-direction:column"></div>
+          </div>
+        </section>
+        <section class="page" id="page-history">
+          <div class="card blueprint" style="gap:10px">
+            <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
+              <div class="card-kicker">Generate Report</div>
+              <div style="display:flex;align-items:center;gap:10px">
+                <div class="seg" id="report-period-seg">
+                  <label class="seg-opt active" data-period="24h"><input type="radio" name="reportPeriod" checked>24h</label>
+                  <label class="seg-opt" data-period="7d"><input type="radio" name="reportPeriod">7d</label>
+                  <label class="seg-opt" data-period="30d"><input type="radio" name="reportPeriod">30d</label>
+                </div>
+                <button type="button" class="btn btn-primary blueprint" id="generate-report-btn"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>Generate CSV</button>
+              </div>
+            </div>
+            <div class="text-muted" style="font-size:12px" id="report-status">CSV export of this machine's own recorded history. No PDF option — this app has no PDF-generation dependency.</div>
+          </div>
+
+          <div class="card blueprint" style="gap:10px">
+            <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+              <div class="card-kicker">Report History</div>
+              <div style="display:flex;align-items:center;gap:12px">
+                <span class="text-muted" style="font-size:12px" id="report-total">0 reports</span>
+                <button type="button" class="btn btn-ghost" id="report-delete-all-btn" style="font-size:12px">Delete All</button>
+              </div>
+            </div>
+            <table class="table">
+              <thead><tr>
+                <th class="sortable" data-sort="name">Name<span class="sort-arrow"></span></th>
+                <th class="sortable sort-active" data-sort="modified">Generated<span class="sort-arrow">▼</span></th>
+                <th class="sortable" data-sort="sizeBytes" style="width:100px">Size<span class="sort-arrow"></span></th>
+                <th style="width:80px"></th>
+              </tr></thead>
+              <tbody id="report-rows"></tbody>
+            </table>
+          </div>
+
+          <div class="card blueprint placeholder-note">
+            <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+            Scheduled email reports aren't shown here — there's no real SMTP/scheduling mechanism in
+            this app to back that with, and a fake "enabled" toggle that doesn't actually send
+            anything would be worse than not offering it at all.
+          </div>
+        </section>
+        <section class="page" id="page-devices">
+          <div class="card blueprint" style="gap:10px">
+            <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+            <div class="card-kicker">Battery-Powered Devices</div>
+            <table class="table">
+              <thead><tr>
+                <th class="sortable" data-sort="name">Device<span class="sort-arrow"></span></th>
+                <th class="sortable" data-sort="manufacturer">Manufacturer<span class="sort-arrow"></span></th>
+                <th class="sortable" data-sort="status">Status<span class="sort-arrow"></span></th>
+                <th class="sortable" data-sort="capacityPercent" style="width:160px">Battery<span class="sort-arrow"></span></th>
+              </tr></thead>
+              <tbody id="device-rows"></tbody>
+            </table>
+          </div>
+          <div class="card blueprint placeholder-note">
+            <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+            This list comes from scanning <code>/sys/class/power_supply</code> for <code>type=Battery</code>
+            devices — it finds anything the kernel already created a sysfs node for (e.g. Logitech HID++
+            wireless mice/keyboards), but not pure-Bluetooth battery reporting that only exists via
+            UPower's D-Bus interface, which this app doesn't query yet.
+          </div>
+        </section>
+        <section class="page" id="page-settings">
+          <div class="card blueprint" style="gap:14px">
+            <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+            <div class="card-kicker">General</div>
+
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <span style="font-size:13px">Capacity units</span>
+              <div class="seg" id="settings-units-seg">
+                <label class="seg-opt active" data-unit="Wh"><input type="radio" name="capacityUnit" checked>Wh</label>
+                <label class="seg-opt" data-unit="Ah"><input type="radio" name="capacityUnit">Ah</label>
+              </div>
+            </div>
+
+            <div>
+              <div style="display:flex;justify-content:space-between"><span style="font-size:13px">Refresh interval</span><span class="text-muted" id="settings-refresh-val">1s</span></div>
+              <input type="range" min="1" max="10" id="settings-refresh" aria-label="Refresh interval, seconds" style="width:100%">
+            </div>
+
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <span style="font-size:13px">Start on boot</span>
+              <label class="switch"><input type="checkbox" id="settings-autostart" aria-label="Start on boot"><span class="track"></span><span class="knob"></span></label>
+            </div>
+
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <span style="font-size:13px">Show in system tray</span>
+              <label class="switch"><input type="checkbox" id="settings-tray" aria-label="Show in system tray"><span class="track"></span><span class="knob"></span></label>
+            </div>
+
+            <div class="text-muted" style="font-size:11px">
+              Language isn't offered here — this build has no i18n system, so a language
+              selector would be fake interactivity.
+            </div>
+          </div>
+
+          <div class="card blueprint" style="gap:14px">
+            <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+            <div class="card-kicker">Notifications</div>
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <span style="font-size:13px">Desktop notifications for alerts</span>
+              <label class="switch"><input type="checkbox" id="settings-notif-desktop" aria-label="Desktop notifications for alerts"><span class="track"></span><span class="knob"></span></label>
+            </div>
+            <div class="text-muted" style="font-size:11px">
+              No sound toggle — notification sound is controlled by your desktop's
+              notification daemon, not something this app plays itself.
+            </div>
+          </div>
+
+          <div class="card blueprint" style="gap:10px">
+            <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+            <div class="card-kicker">Data</div>
+            <div class="info-row"><span class="label">History database</span><span class="value" id="settings-db-path" style="font-size:11px">—</span></div>
+            <div class="info-row"><span class="label">Recorded samples</span><span class="value" id="settings-row-count">—</span></div>
+            <div>
+              <div style="display:flex;justify-content:space-between"><span style="font-size:13px">Keep history for</span><span class="text-muted" id="settings-retention-val">—</span></div>
+              <input type="range" min="1" max="365" id="settings-retention" aria-label="Keep history for, days" style="width:100%">
+              <div class="text-muted" style="font-size:11px;margin-top:4px">Readings older than this are deleted automatically — checked hourly, and immediately when you change this value.</div>
+            </div>
+            <div id="settings-clear-normal">
+              <button type="button" class="btn btn-secondary" id="settings-clear-btn">Clear History</button>
+            </div>
+            <div id="settings-clear-confirm" class="hidden" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+              <span style="font-size:13px">Permanently delete all recorded history? This can't be undone.</span>
+              <button type="button" class="btn btn-primary blueprint" id="settings-clear-confirm-btn"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>Delete All</button>
+              <button type="button" class="btn btn-secondary" id="settings-clear-cancel-btn">Cancel</button>
+            </div>
+          </div>
+
+          <div class="card blueprint" style="gap:10px">
+            <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+            <div class="card-kicker">About</div>
+            <div class="info-row"><span class="label">Version</span><span class="value" id="settings-version">—</span></div>
+            <div class="info-row"><span class="label">License</span><span class="value">MIT</span></div>
+            <div class="text-muted" style="font-size:11px">
+              No "Check for updates" — this build has no update-check mechanism yet.
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast hidden" id="connection-toast" role="status" aria-live="polite">
+    <span class="toast-dot"></span>
+    <span id="connection-toast-message">Lost connection to the app backend — retrying…</span>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+pub mod alerts;
+pub mod autostart;
+pub mod battery_saver;
+pub mod charging;
+pub mod devices;
+pub mod format;
+pub mod history;
+pub mod power_profile;
+pub mod processes;
+pub mod rapl;
+pub mod reader;
+pub mod reports;
+pub mod usbpd;
+
+pub use alerts::{BatteryAlertDetector, Severity};
+pub use charging::{read_charge_thresholds, set_charge_thresholds, ChargeThresholds};
+pub use devices::{read_peripheral_devices, PeripheralDevice};
+pub use rapl::{rapl_available, read_package_power_watts};
+pub use reports::{delete_report, generate_csv_report, list_reports, ReportEntry, ReportPeriod};
+pub use format::{aggregate_bins, color_for_status, format_tray_label, split_on_gaps, IntervalBin};
+pub use history::{default_db_path, GraphData, HistoryDB, DEFAULT_RETENTION_DAYS};
+pub use processes::{parse_powertop_html, read_top_processes_by_cpu, run_powertop_scan, CpuProcess, PowerTopProcess};
+pub use reader::{find_battery_paths, BatteryReader, Reading};
+pub use usbpd::{read_active_usb_pd, UsbPdInfo};

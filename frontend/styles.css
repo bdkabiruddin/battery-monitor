@@ -1,0 +1,439 @@
+/* Industry — design-system tokens and component classes, ported from
+   design_handoff_battery_monitor/battery_monitor_design_reference.html.
+   Fonts are self-hosted (fonts/*.ttf) instead of the reference's Google
+   Fonts URLs, for an offline-capable native app. */
+
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('fonts/Barlow-Regular.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('fonts/Barlow-SemiBold.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('fonts/Barlow-Bold.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Barlow Condensed';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('fonts/BarlowCondensed-Medium.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Barlow Condensed';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('fonts/BarlowCondensed-SemiBold.ttf') format('truetype');
+}
+
+:root {
+  --color-bg: #f2f2f3;
+  --color-surface: #e9e9ea;
+  --color-text: #1d1f20;
+  --color-accent: #5980a6;
+  --color-accent-2: #728fab;
+  --color-divider: color-mix(in srgb, #1d1f20 16%, transparent);
+
+  /* Tonal ramps — generated in OKLCH on one shared lightness scale, so the
+     same step of any role matches the others in visual value. */
+  --color-neutral-100: #f5f5f8;
+  --color-neutral-200: #e7e7ea;
+  --color-neutral-300: #d4d4d7;
+  --color-neutral-400: #b7b7ba;
+  --color-neutral-500: #98989b;
+  --color-neutral-600: #7a7a7d;
+  --color-neutral-700: #5d5d60;
+  --color-neutral-800: #424244;
+  --color-neutral-900: #2b2b2d;
+
+  --color-accent-100: #eef6ff;
+  --color-accent-200: #d6ebff;
+  --color-accent-300: #b5d9fd;
+  --color-accent-400: #94bce3;
+  --color-accent-500: #749dc4;
+  --color-accent-600: #597ea3;
+  --color-accent-700: #416180;
+  --color-accent-800: #2c455d;
+  --color-accent-900: #1d2d3d;
+
+  --color-accent-2-100: #eef6ff;
+  --color-accent-2-200: #d6ebff;
+  --color-accent-2-300: #bdd8f2;
+  --color-accent-2-400: #9ebbd8;
+  --color-accent-2-500: #7e9cb8;
+  --color-accent-2-600: #627d98;
+  --color-accent-2-700: #486077;
+  --color-accent-2-800: #314457;
+  --color-accent-2-900: #1f2d3a;
+
+  --font-heading: "Barlow Condensed", system-ui, sans-serif;
+  --font-heading-weight: 600;
+  --font-body: "Barlow", system-ui, sans-serif;
+
+  --space-1: 3.4px;
+  --space-2: 6.8px;
+  --space-3: 10.2px;
+  --space-4: 13.6px;
+  --space-6: 20.4px;
+  --space-8: 27.2px;
+
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 7px;
+
+  --shadow-sm: 0 1px 2px color-mix(in srgb, #2b2b2d 14%, transparent);
+  --shadow-md: 0 3px 10px color-mix(in srgb, #2b2b2d 16%, transparent);
+  --shadow-lg: 0 12px 32px color-mix(in srgb, #2b2b2d 22%, transparent);
+}
+
+/* Dark theme override (app-level, not part of the base design system) --
+   applied via [data-theme="dark"] on <html>, matching the design
+   reference's `themeStyleVars` block. */
+html[data-theme="dark"] {
+  --color-bg: #1a1b1d;
+  --color-surface: #232427;
+  --color-text: #eef0f1;
+  --color-divider: rgba(255, 255, 255, .14);
+  --color-accent-100: rgba(89, 128, 166, .28);
+  --color-accent-800: #d3e3f0;
+  --color-neutral-100: rgba(255, 255, 255, .08);
+  --color-neutral-800: #e8e8ea;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; }
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.55;
+  font-weight: 400;
+  overflow: hidden;
+}
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading); font-weight: var(--font-heading-weight);
+  line-height: 1.12; letter-spacing: -0.015em; margin: 0 0 var(--space-2);
+}
+h4 { font-size: 20px; }
+p { margin: 0 0 var(--space-3); }
+img { display: block; max-width: 100%; }
+/* 65%, not 55% -- 55% measured ~3.65:1 against the light theme's
+   background, below WCAG AA's 4.5:1 for normal-size text (dark theme
+   was already fine at ~5.4:1). 65% clears AA in both themes (~5:1
+   light, ~7:1 dark). */
+.text-muted { color: color-mix(in srgb, var(--color-text) 65%, transparent); }
+:focus { outline: none; }
+:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+::selection { background: color-mix(in srgb, var(--color-accent) 30%, transparent); }
+::-webkit-scrollbar { width: 9px; height: 9px; }
+::-webkit-scrollbar-thumb { background: var(--color-divider); }
+
+@keyframes pulseDot { 0%, 100% { opacity: 1; } 50% { opacity: .3; } }
+
+/* — rules — */
+.hr { height: 1px; border: 0; margin: var(--space-4) 0; background: var(--color-divider); }
+
+/* — buttons — */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  cursor: pointer; text-decoration: none;
+  font-family: var(--font-heading); font-weight: var(--font-heading-weight);
+  font-size: 14px; line-height: 1.2; color: var(--color-text);
+  background: transparent; border: 1px solid var(--color-divider);
+  padding: var(--space-2) calc(var(--space-3) * 1.2);
+  border-radius: 0;
+}
+.btn svg { display: block; }
+.btn:disabled { opacity: 0.45; cursor: not-allowed; }
+.btn-primary { background: var(--color-accent); color: var(--color-bg); border-color: var(--color-accent); }
+.btn-primary:hover { background: var(--color-accent-600); }
+.btn-primary:active { background: var(--color-accent-700); }
+.btn-secondary:hover { background: color-mix(in srgb, var(--color-text) 7%, transparent); }
+.btn-secondary:active { background: color-mix(in srgb, var(--color-text) 14%, transparent); }
+.btn-ghost { color: var(--color-accent); padding-inline: var(--space-1); border-color: transparent; }
+.btn-ghost:hover { background: color-mix(in srgb, var(--color-accent) 10%, transparent); }
+.btn-ghost:active { background: color-mix(in srgb, var(--color-accent) 18%, transparent); }
+.btn-icon { width: 36px; height: 36px; padding: 0; }
+.btn-block { width: 100%; margin-top: var(--space-2); }
+
+/* — forms — */
+.input {
+  width: 100%; min-height: 36px; padding: 6px 10px; font: inherit;
+  font-size: 14px; color: var(--color-text); caret-color: var(--color-accent);
+  background: var(--color-surface);
+  border: 1px solid var(--color-divider); border-radius: 0;
+}
+.input:hover { border-color: color-mix(in srgb, var(--color-text) 45%, transparent); }
+.input:focus-visible { border-color: var(--color-accent); outline-offset: 0; }
+
+.seg {
+  display: inline-flex; overflow: hidden;
+  border: 1px solid var(--color-divider); border-radius: 0;
+}
+.seg-opt {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 7px 12px; font-size: 13px; cursor: pointer;
+}
+.seg-opt + .seg-opt { border-left: 1px solid var(--color-divider); }
+.seg-opt.active { background: var(--color-accent); color: var(--color-bg); }
+.seg-opt:not(.active):hover { background: color-mix(in srgb, var(--color-text) 7%, transparent); }
+.seg-opt input { position: absolute; opacity: 0; width: 0; height: 0; pointer-events: none; }
+/* The real <input> is 0x0 (above), so an outline on it is invisible --
+   :has() lets the visible label itself carry the focus ring when its
+   hidden radio is keyboard-focused. */
+.seg-opt:has(input:focus-visible) { outline: 2px solid var(--color-accent); outline-offset: -2px; position: relative; z-index: 1; }
+
+/* — toggle switch — 34x18px track, 14px knob, per design-handoff spec */
+.switch { position: relative; display: inline-block; width: 34px; height: 18px; flex: none; cursor: pointer; }
+.switch input { position: absolute; opacity: 0; width: 0; height: 0; }
+/* Same 0x0-input problem as .seg-opt above -- the switch itself carries
+   the focus ring instead. */
+.switch:has(input:focus-visible) { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+.switch .track {
+  position: absolute; inset: 0; border: 1.5px solid var(--color-neutral-400);
+  background: transparent; transition: background .12s, border-color .12s;
+}
+.switch .knob {
+  position: absolute; top: 1px; left: 1px; width: 14px; height: 14px;
+  background: var(--color-neutral-400); transition: transform .12s, background .12s;
+}
+.switch input:checked + .track { background: var(--color-accent); border-color: var(--color-accent); }
+.switch input:checked + .track + .knob { transform: translateX(16px); background: var(--color-bg); }
+
+/* — range slider — square, accent-colored, matching the mono palette
+   (browser UA defaults render an OS/theme accent color here, which on
+   this system is an off-brand orange -- the design system's own rule
+   is no hue outside the accent ramp anywhere). */
+input[type="range"] {
+  -webkit-appearance: none; appearance: none;
+  width: 100%; height: 4px; background: var(--color-divider);
+  border-radius: 0; cursor: pointer; outline: none;
+}
+/* The attribute selector above (0,1,1) outranks the generic
+   :focus-visible rule (0,1,0) regardless of source order, so its
+   `outline: none` silently wins and keyboard focus becomes invisible
+   on every range slider -- this rule's higher specificity (0,2,1)
+   restores it. */
+input[type="range"]:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+/* Transparent so the input's own background (a JS-set linear-gradient,
+   see updateRangeFill in app.js) shows through as the filled-up-to-value
+   look, instead of a flat track with no progress indication. */
+input[type="range"]::-webkit-slider-runnable-track { height: 4px; background: transparent; }
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none;
+  width: 14px; height: 14px; margin-top: -5px;
+  background: var(--color-accent); border: 2px solid var(--color-bg); border-radius: 50%;
+  box-shadow: 0 0 0 1px var(--color-accent); cursor: pointer;
+}
+input[type="range"]::-moz-range-track { height: 4px; background: var(--color-divider); border: none; }
+input[type="range"]::-moz-range-thumb {
+  width: 14px; height: 14px;
+  background: var(--color-accent); border: 2px solid var(--color-bg); border-radius: 50%;
+  box-shadow: 0 0 0 1px var(--color-accent); cursor: pointer;
+}
+
+/* — cards — */
+.card {
+  display: flex; flex-direction: column; gap: var(--space-2);
+  padding: var(--space-3); border-radius: 0;
+}
+.card-kicker { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-accent); }
+.elev-md { box-shadow: var(--shadow-md); }
+
+/* — tags — */
+.tag {
+  display: inline-flex; align-items: center; font-size: 11px;
+  letter-spacing: 0.02em; padding: 3px 10px; border-radius: 0;
+}
+.tag-accent { background: var(--color-accent-100); color: var(--color-accent-800); }
+.tag-neutral { background: var(--color-neutral-100); color: var(--color-neutral-800); }
+.tag-outline { border: 1px solid var(--color-accent); color: var(--color-accent); }
+
+/* — tables — */
+.table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.table th {
+  text-align: left; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+  /* 65%, not 60% -- same WCAG AA contrast fix as .text-muted (60%
+     measured ~4.25:1 in light mode, just under the 4.5:1 minimum). */
+  color: color-mix(in srgb, var(--color-text) 65%, transparent);
+  padding: var(--space-2); border-bottom: 1px solid var(--color-divider);
+}
+.table td {
+  padding: var(--space-2);
+  border-bottom: 1px solid color-mix(in srgb, var(--color-text) 8%, transparent);
+}
+.table tbody tr:hover { background: color-mix(in srgb, var(--color-text) 4%, transparent); }
+.table th.sortable { cursor: pointer; user-select: none; }
+.table th.sortable:hover { color: var(--color-text); }
+.table th.sortable .sort-arrow { display: inline-block; margin-left: 4px; opacity: .6; }
+.table th.sortable.sort-active { color: var(--color-accent); }
+.table th.sortable.sort-active .sort-arrow { opacity: 1; }
+
+/* — blueprint: hairline border, square corners, solid surface fill
+   (matches network-monitor's .card background instead of the
+   transparent-card look this design started with) — */
+.blueprint { position: relative; border: 1px solid var(--color-divider); border-radius: 0; background: var(--color-surface); }
+.blueprint > .corner { display: none; }
+/* Buttons that borrow .blueprint only for the square border/corner-mark
+   treatment (Generate CSV, Delete All) keep their own btn-* background --
+   .blueprint's surface fill is for cards/dialogs, not buttons. */
+.btn.blueprint { background: transparent; }
+.btn-primary.blueprint { background: var(--color-accent); }
+.btn-secondary.blueprint { background: transparent; }
+
+.hidden { display: none !important; }
+
+/* — chart hover tooltip (24H Average, Live Telemetry, Degradation Trend) — */
+.chart-tooltip {
+  position: absolute; top: 0; pointer-events: none; z-index: 10;
+  background: var(--color-bg); border: 1px solid var(--color-divider);
+  padding: 6px 8px; font-size: 11px; white-space: nowrap; line-height: 1.6;
+  box-shadow: var(--shadow-md);
+}
+.chart-tooltip .tt-row { display: flex; align-items: center; gap: 6px; }
+.chart-tooltip .swatch { width: 8px; height: 8px; flex: none; display: inline-block; }
+
+/* ══════════════════════════════════════════════════════════════════════
+   App shell
+   ══════════════════════════════════════════════════════════════════════ */
+
+#app { height: 100vh; width: 100vw; overflow: hidden; display: flex; }
+
+.sidebar {
+  width: 230px; flex: none; display: flex; flex-direction: column;
+  background: var(--color-surface); border-right: 1px solid var(--color-divider);
+}
+.sidebar-brand {
+  height: 58px; box-sizing: border-box; padding: 0 16px; display: flex;
+  align-items: center; gap: 10px; border-bottom: 1px solid var(--color-divider);
+}
+.sidebar-brand svg { flex: none; }
+.sidebar-brand-name { font-family: var(--font-heading); font-weight: 600; font-size: 16px; line-height: 1; }
+.sidebar-brand-sub { font-size: 10px; opacity: .55; letter-spacing: .06em; text-transform: uppercase; margin-top: 2px; }
+.sidebar-nav { flex: 1; overflow-y: auto; padding: 8px; display: flex; flex-direction: column; gap: 2px; }
+.nav-item {
+  display: flex; align-items: center; gap: 10px; width: 100%; padding: 9px 10px;
+  border: none; background: transparent; color: inherit; font: inherit; font-size: 13.5px;
+  cursor: pointer; text-align: left;
+}
+.nav-item svg { flex: none; }
+.nav-item span { flex: 1; }
+.nav-item:hover { background: color-mix(in srgb, var(--color-text) 6%, transparent); }
+.nav-item.active { background: var(--color-accent-100); color: var(--color-accent-800); }
+.nav-badge { background: var(--color-accent); color: var(--color-bg); font-size: 10px; padding: 1px 6px; line-height: 1.5; flex: none; }
+.sidebar-divider { height: 1px; background: var(--color-divider); margin: 6px 4px; }
+.sidebar-footer {
+  border-top: 1px solid var(--color-divider); padding: 14px 16px;
+  display: flex; align-items: center; gap: 10px;
+}
+.sidebar-footer svg { flex: none; }
+.sidebar-footer-title { font-weight: 500; font-size: 13px; }
+
+.main { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+.topbar {
+  height: 58px; flex: none; display: flex; align-items: center; gap: 16px;
+  padding: 0 24px; border-bottom: 1px solid var(--color-divider);
+}
+.topbar-title { flex: 1 1 auto; min-width: 0; }
+/* overflow:hidden + ellipsis, not just nowrap -- without it the title
+   doesn't clip, it visually overlaps the search bar once the window
+   shrinks below what both need (confirmed at tauri.conf.json's own
+   declared 900px minWidth). */
+.topbar-title h4 { margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.topbar-subtitle { font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.palette-btn {
+  margin-left: 12px; width: 280px; flex: none; display: flex; align-items: center;
+  gap: 8px; cursor: pointer; color: inherit; text-align: left;
+}
+/* At the app's own declared 900px minWidth, a fixed 280px search bar
+   plus the topbar's other fixed-width chrome left ~0px for the page
+   title -- the earlier overlap fix (ellipsis) stopped it from visually
+   colliding with the search bar, but the title still rendered fully
+   blank rather than showing anything at all. Shrinking the search bar
+   itself below 1050px gives the title real room again. */
+@media (max-width: 1050px) {
+  .palette-btn { width: 170px; }
+  .palette-btn span:first-of-type { display: none; }
+}
+.palette-btn span:first-of-type { opacity: .55; flex: 1; font-size: 13px; }
+.palette-kbd { font-size: 11px; opacity: .45; border: 1px solid var(--color-divider); padding: 1px 6px; flex: none; }
+.topbar-actions { margin-left: auto; display: flex; align-items: center; gap: 8px; flex: none; }
+.live-dot-row { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--color-accent-800); }
+.live-dot { width: 7px; height: 7px; background: var(--color-accent); border-radius: 50%; animation: pulseDot 1.8s infinite; display: inline-block; }
+/* Backend-unreachable state -- the dot stops pulsing and dims to muted
+   gray (this design system stays inside the accent ramp even for
+   "Critical" alerts, so red would be off-brand -- gray reads as "not
+   live" without introducing a new hue), and "Live" is swapped for
+   "Offline" by JS, instead of staying a purely decorative "Live" label
+   regardless of whether polling is actually succeeding. */
+.live-dot-row.offline { color: color-mix(in srgb, var(--color-text) 65%, transparent); }
+.live-dot-row.offline .live-dot { background: color-mix(in srgb, var(--color-text) 45%, transparent); animation: none; }
+
+/* — connection toast — */
+.toast {
+  position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%);
+  z-index: 300; display: flex; align-items: center; gap: 10px;
+  background: var(--color-surface); border: 1px solid var(--color-divider);
+  padding: 10px 14px; font-size: 13px; box-shadow: var(--shadow-md);
+  max-width: 90vw;
+}
+.toast .toast-dot { width: 7px; height: 7px; border-radius: 50%; background: color-mix(in srgb, var(--color-text) 45%, transparent); flex: none; }
+
+/* — quick actions dropdown — */
+.quick-actions-menu {
+  position: absolute; top: 42px; right: 0; background: var(--color-bg);
+  padding: 6px; display: flex; flex-direction: column; gap: 2px; z-index: 60; width: 220px;
+}
+.quick-actions-menu .btn { justify-content: flex-start; }
+
+/* — command palette + keyboard shortcuts dialogs — */
+.dialog-backdrop {
+  position: fixed; inset: 0; z-index: 100; display: flex; align-items: flex-start; justify-content: center;
+  padding-top: 12vh; background: color-mix(in srgb, #000 50%, transparent);
+}
+.palette-dialog { width: min(560px, 90vw); padding: var(--space-3); display: flex; flex-direction: column; gap: 0; }
+.palette-results { display: flex; flex-direction: column; max-height: 50vh; overflow-y: auto; margin-top: var(--space-2); }
+.palette-item {
+  display: flex; justify-content: space-between; align-items: center; gap: 10px;
+  padding: 8px 10px; cursor: pointer; font-size: 13px;
+}
+.palette-item:hover, .palette-item.active { background: var(--color-accent-100); color: var(--color-accent-800); }
+.palette-item .kind { font-size: 11px; opacity: .55; text-transform: uppercase; letter-spacing: .04em; }
+.dialog-title { font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 20px; }
+.shortcut-row { display: flex; justify-content: space-between; }
+.shortcut-key { font-size: 11px; border: 1px solid var(--color-divider); padding: 1px 6px; }
+
+.content { flex: 1; overflow-y: auto; padding: 22px 24px; display: flex; flex-direction: column; gap: 18px; }
+.page { display: none; flex-direction: column; gap: 18px; }
+.page.active { display: flex; }
+
+.grid-3 { display: grid; grid-template-columns: 1.1fr 1.3fr 1fr; gap: 18px; align-items: stretch; }
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.info-row { display: flex; justify-content: space-between; gap: 10px; }
+.info-row .label { color: color-mix(in srgb, var(--color-text) 55%, transparent); white-space: nowrap; }
+.info-row .value { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.stat-tile { font-family: var(--font-heading); font-size: 22px; font-weight: 600; }
+
+.metrics-2x2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px 14px; }
+.metric-cell .metric-label { color: color-mix(in srgb, var(--color-text) 55%, transparent); font-size: 12px; }
+.metric-cell .metric-value { font-family: var(--font-heading); font-size: 19px; font-weight: 600; }
+.metric-cell svg { display: block; }
+
+.placeholder-note {
+  font-size: 13px; opacity: .7; padding: var(--space-6);
+  display: flex; align-items: center; justify-content: center; text-align: center;
+}

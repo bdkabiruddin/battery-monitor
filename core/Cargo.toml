@@ -1,0 +1,13 @@
+[package]
+name = "battery-core"
+version = "0.0.1"
+edition = "2021"
+license = "MIT"
+
+[dependencies]
+regex = "1"
+chrono = { version = "0.4", default-features = false, features = ["clock"] }
+rusqlite = { version = "0.31", features = ["bundled"] }
+dirs = "5"
+
+[dev-dependencies]
