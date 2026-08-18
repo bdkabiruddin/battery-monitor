@@ -10,6 +10,14 @@ across CLI tools.
 
 ![Battery Monitor dashboard](.github/screenshots/dashboard.png)
 
+<details>
+<summary>More screenshots — Health trend &amp; Devices</summary>
+
+![Health degradation trend](.github/screenshots/health.png)
+![Battery-powered devices](.github/screenshots/devices.png)
+
+</details>
+
 ## Why
 
 Linux exposes a surprising amount of real battery data — voltage,
