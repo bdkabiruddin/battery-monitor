@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.bdkabiruddin.BatteryMonitor</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <name>Battery Monitor</name>
+  <summary>Battery health, telemetry, and power-usage dashboard</summary>
+  <description>
+    <p>
+      Battery Monitor is a native battery health and power dashboard for
+      Linux laptops: live voltage/current/power/temperature telemetry,
+      real health and degradation tracking, charging diagnostics,
+      per-process power usage, and long-term history, all backed by real
+      hardware data with nothing simulated.
+    </p>
+    <p>Features:</p>
+    <ul>
+      <li>Live charge status with rolling voltage/current/power/temperature sparklines</li>
+      <li>Real health percentage, cycle count, and a 12-month degradation trend</li>
+      <li>Estimated system draw, CPU package power (Intel RAPL), and power profile status</li>
+      <li>Live USB-C Power Delivery negotiation details</li>
+      <li>Charge threshold read/write on supported hardware</li>
+      <li>Per-process CPU ranking and an optional PowerTop power-impact scan</li>
+      <li>Edge-triggered alerts for low/critical battery, temperature, and power spikes</li>
+      <li>Other battery-powered peripherals (mice, keyboards, headsets)</li>
+      <li>CSV history export with configurable retention</li>
+      <li>System tray icon with a live wattage/percentage label</li>
+    </ul>
+    <p>
+      Everything runs locally against a SQLite database on your own
+      machine — no telemetry, no accounts, no cloud dependency.
+    </p>
+  </description>
+  <launchable type="desktop-id">io.github.bdkabiruddin.BatteryMonitor.desktop</launchable>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Live battery status and telemetry dashboard</caption>
+      <image>https://raw.githubusercontent.com/bdkabiruddin/battery-monitor/main/.github/screenshots/dashboard.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Health percentage and 12-month degradation trend</caption>
+      <image>https://raw.githubusercontent.com/bdkabiruddin/battery-monitor/main/.github/screenshots/health.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Other battery-powered peripherals</caption>
+      <image>https://raw.githubusercontent.com/bdkabiruddin/battery-monitor/main/.github/screenshots/devices.png</image>
+    </screenshot>
+  </screenshots>
+  <url type="homepage">https://github.com/bdkabiruddin/battery-monitor</url>
+  <url type="bugtracker">https://github.com/bdkabiruddin/battery-monitor/issues</url>
+  <url type="vcs-browser">https://github.com/bdkabiruddin/battery-monitor</url>
+  <developer id="io.github.bdkabiruddin">
+    <name>Md Kabir Uddin</name>
+  </developer>
+  <content_rating type="oars-1.1" />
+  <categories>
+    <category>System</category>
+    <category>Monitor</category>
+    <category>Utility</category>
+  </categories>
+  <releases>
+    <release version="0.0.1" date="2026-08-19">
+      <description>
+        <p>Initial Flathub release.</p>
+      </description>
+    </release>
+  </releases>
+</component>

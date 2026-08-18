@@ -1,0 +1,57 @@
+app-id: io.github.bdkabiruddin.BatteryMonitor
+runtime: org.gnome.Platform
+runtime-version: '49'
+sdk: org.gnome.Sdk
+sdk-extensions:
+  - org.freedesktop.Sdk.Extension.rust-stable
+command: battery-monitor
+finish-args:
+  # UI
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # Real battery telemetry needs to see the host's actual hardware state
+  # -- /sys/class/power_supply/*, USB-C PD sysfs, and Intel RAPL's
+  # powercap sysfs all live under paths a sandboxed /sys can't see
+  # without this. Broad host filesystem access is the pragmatic tradeoff
+  # a hardware-telemetry tool like this makes.
+  - --filesystem=host
+  # power-profiles-daemon, UPower, dconf (battery-saver setting), desktop
+  # notifications, tray icon.
+  - --system-talk-name=net.hadess.PowerProfiles
+  - --system-talk-name=org.freedesktop.UPower
+  - --talk-name=ca.desrt.dconf
+  - --talk-name=org.freedesktop.Notifications
+  - --talk-name=org.kde.StatusNotifierWatcher
+  # Known limitation: pkexec-gated features (PowerTop scan, CPU package
+  # power via RAPL, charge threshold writes) call `pkexec` directly,
+  # which does not work across the Flatpak sandbox boundary without
+  # routing through `flatpak-spawn --host` -- not yet implemented in the
+  # Rust source. These features will show their real "cancelled or
+  # failed" error inside this sandboxed build rather than working --
+  # everything else (dashboard, telemetry, health, alerts, history,
+  # devices) is unaffected and fully functional.
+  - --talk-name=org.freedesktop.PolicyKit1
+build-options:
+  append-path: /usr/lib/sdk/rust-stable/bin
+  env:
+    CARGO_HOME: /run/build/battery-monitor/cargo
+modules:
+  - name: battery-monitor
+    buildsystem: simple
+    build-commands:
+      - cd app && cargo --offline build --release
+      - install -Dm755 app/target/release/battery-monitor /app/bin/battery-monitor
+      - install -Dm644 flatpak/io.github.bdkabiruddin.BatteryMonitor.desktop /app/share/applications/io.github.bdkabiruddin.BatteryMonitor.desktop
+      - install -Dm644 flatpak/io.github.bdkabiruddin.BatteryMonitor.metainfo.xml /app/share/metainfo/io.github.bdkabiruddin.BatteryMonitor.metainfo.xml
+      - install -Dm644 app/icons/icon.png /app/share/icons/hicolor/512x512/apps/io.github.bdkabiruddin.BatteryMonitor.png
+      - install -Dm644 app/icons/128x128.png /app/share/icons/hicolor/128x128/apps/io.github.bdkabiruddin.BatteryMonitor.png
+      - install -Dm644 app/icons/32x32.png /app/share/icons/hicolor/32x32/apps/io.github.bdkabiruddin.BatteryMonitor.png
+    sources:
+      - type: dir
+        path: ..
+        skip:
+          - app/target
+          - core/target
+      - cargo-sources.json

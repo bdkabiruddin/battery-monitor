@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Battery Monitor
+Comment=Battery health, telemetry, and power-usage dashboard
+Exec=battery-monitor
+Icon=io.github.bdkabiruddin.BatteryMonitor
+Terminal=false
+Categories=System;Monitor;Utility;
+StartupWMClass=battery-monitor
