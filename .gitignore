@@ -10,6 +10,8 @@
 *.rpm
 
 # Rust
+target/
+app/target/
 core/target/
 # battery-core is a library, not a binary -- no Cargo.lock committed,
 # same convention as any other library crate (consumers resolve their
